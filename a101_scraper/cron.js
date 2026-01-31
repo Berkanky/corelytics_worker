@@ -2,7 +2,7 @@ const cron = require("node-cron");
 
 var { get_products_details } = require("../a101_scraper/get_products_details");
 
-cron.schedule("55 23 * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
     try {
         console.log("The scheduled automation operation has started. " + new Date());
         
