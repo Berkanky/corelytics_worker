@@ -41,9 +41,6 @@ const product_schema = new mongoose.Schema({
     product_code: {
         type: String
     },
-    url:{
-        type: String
-    },
     name:{
         type: String
     },

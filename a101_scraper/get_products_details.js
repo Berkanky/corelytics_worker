@@ -25,7 +25,7 @@ async function get_tracking_products(){
         continue;
     };
 
-    product_trackings = product_trackings.filter(function(item){ return item.should_run == true });
+    product_trackings = product_trackings.filter(function(item){ return item.should_run === true });
     if( !product_trackings.length ) throw "product_tracking empty. ";
 
     return product_trackings;

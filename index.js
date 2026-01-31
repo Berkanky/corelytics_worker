@@ -22,7 +22,7 @@ var shut_down_server_in_safety_mode = require("./functions/shut_down_server_in_s
 //Routes.
 var routes = require("./routes/index");
 
-require("./scraper/cron");
+require("./a101_scraper/cron");
 
 var { 
   MONGODB_URI, 
