@@ -1,6 +1,6 @@
 const cron = require("node-cron");
 
-var { get_products_details } = require("../scraper/get_products_details");
+var { get_products_details } = require("../a101_scraper/get_products_details");
 
 cron.schedule("55 23 * * *", async () => {
     try {
