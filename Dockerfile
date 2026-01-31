@@ -1,10 +1,12 @@
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 WORKDIR /app
-
-RUN apk add --no-cache wget
 
 COPY package*.json ./
 RUN npm ci --omit=dev
+
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+RUN mkdir -p /ms-playwright
+RUN npx playwright install chromium --with-deps
 
 COPY . .
 ENV NODE_ENV=production
