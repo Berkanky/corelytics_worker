@@ -6,8 +6,8 @@ var product_tracking = require("../schemas/product_tracking");
 
 var should_run = require("../functions/should_run");
 
-var {create_product} = require("../insert_operations/create_product");
-var {update_product_tracking_track_date} = require("../update_operations/update_product_tracking_track_date");
+var { create_product } = require("../insert_operations/create_product");
+var { update_product_tracking_track_date } = require("../update_operations/update_product_tracking");
 
 async function get_tracking_products(){
     var product_trackings = await product_tracking.find().lean();

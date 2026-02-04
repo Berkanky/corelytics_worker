@@ -10,12 +10,16 @@ var rate_limiter = require("../middleware/rate_limiter");
 //shemas
 var product_tracking = require("../schemas/product_tracking");
 
+//functions
+var { create_product_tracking } = require("../insert_operations/create_product_tracking");
+
+//Health service.
 app.get(
     "/health",
     async(req, res) => { 
         try{
           return res.status(200).json({
-            issuer: 'corelytics',
+            issuer: 'corelytics_worker',
             success: true,
             request_date: new Date()
           });
@@ -26,12 +30,13 @@ app.get(
     }
 );
 
+//create-product-tracking service.
 app.post(
   "/create-product-tracking",
   rate_limiter,
   async(req, res) => {
 
-    var { url, time_range } = req.body;
+    var { url } = req.body;
     
     var { error } = create_product_tracking_service_schema.validate(req.body, { abortEarly: false });
     if( error) return res.status(400).json({errors: error.details.map(detail => detail.message), success: false });
@@ -43,15 +48,7 @@ app.post(
       var product_tracking_detail = await product_tracking.findOne(product_tracking_filter);
       if( product_tracking_detail ) return res.status(409).json({ message:' This product has already been added to the watchlist.', success: false });
 
-      var new_product_tracking_obj = {
-        url: url,
-        created_date: new Date(),
-        time_range: time_range,
-        track_count: 0
-      };
-
-      var new_product_tracking = new product_tracking(new_product_tracking_obj);
-      await new_product_tracking.save();
+      await create_product_tracking(req.body);
 
       return res.status(200).json({ message:' The product to be tracked has been successfully created.', success: true });
     }catch(err){
